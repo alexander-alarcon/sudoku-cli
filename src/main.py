@@ -1,5 +1,6 @@
 import click
 
+from .puzzle.saver import SudokuSaver
 from .puzzle.sudoku import Difficulty, Sudoku
 from .types.sudoku_types import GenerationOutput
 from .types.validation import (
@@ -42,12 +43,13 @@ def main() -> None:
 def generate(difficulty: Difficulty, output: str) -> None:
     sudoku = Sudoku()
     sudoku.generate_puzzle(difficulty=difficulty)
+    sudoku_saver = SudokuSaver(sudoku)
     if output == GenerationOutput.STDOUT:
         sudoku.print_puzzle(title=f"{difficulty.name.capitalize()} difficulty")
     elif output == GenerationOutput.FILE:
-        sudoku.save_puzzle_as_txt()
+        sudoku_saver.save_puzzle_as_image()
     elif output == GenerationOutput.IMAGE:
-        sudoku.save_puzzle_as_image()
+        sudoku_saver.save_puzzle_as_image()
     else:
         raise ValueError(f"Invalid output: {output}")
 
