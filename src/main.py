@@ -1,3 +1,5 @@
+import sys
+
 import click
 
 from .puzzle.reader import SudokuReader
@@ -64,9 +66,13 @@ def generate(difficulty: Difficulty, output: str) -> None:
     required=True,
 )
 def solve(file: str) -> None:
-    sudoku: Sudoku = SudokuReader.read_puzzle(file)
-    sudoku.solve()
-    sudoku.print_puzzle(title="Solved Sudoku")
+    try:
+        sudoku: Sudoku = SudokuReader.read_puzzle(file)
+        sudoku.solve()
+        sudoku.print_puzzle(title="Solved Sudoku")
+    except ValueError as e:
+        error_message = str(e).strip()
+        sys.stderr.write(error_message + "\n")
 
 
 if __name__ == "__main__":

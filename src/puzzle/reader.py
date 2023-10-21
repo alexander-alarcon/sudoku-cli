@@ -30,6 +30,9 @@ class SudokuReader:
         else:
             raise NotImplementedError("Unsupported file format.")
 
+        if not SudokuReader._is_valid_puzzle(puzzle):
+            raise ValueError("Invalid puzzle.")
+
         sudoku = Sudoku()
         sudoku.set_puzzle(puzzle)
         return sudoku
@@ -55,3 +58,27 @@ class SudokuReader:
                 puzzle.append(row)
 
         return puzzle
+
+    @staticmethod
+    def _is_valid_puzzle(puzzle: Grid) -> bool:
+        """
+        Check if the given puzzle is valid.
+
+        Parameters:
+            puzzle (Grid): The puzzle to be checked.
+
+        Returns:
+            bool: True if the puzzle is valid, False otherwise.
+        """
+        if len(puzzle) != 9:
+            return False
+
+        for row in puzzle:
+            if len(row) != 9:
+                return False
+
+            for num in row:
+                if not (0 <= int(num) <= 9):
+                    return False
+
+        return True
