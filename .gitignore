@@ -28,3 +28,4 @@ poetry.toml
 dist/
 
 sudoku.txt
+sudoku.png

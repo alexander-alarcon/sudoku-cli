@@ -44,8 +44,12 @@ def generate(difficulty: Difficulty, output: str) -> None:
     sudoku.generate_puzzle(difficulty=difficulty)
     if output == GenerationOutput.STDOUT:
         sudoku.print_puzzle(title=f"{difficulty.name.capitalize()} difficulty")
-    else:
+    elif output == GenerationOutput.FILE:
         sudoku.save_puzzle_as_txt()
+    elif output == GenerationOutput.IMAGE:
+        sudoku.save_puzzle_as_image()
+    else:
+        raise ValueError(f"Invalid output: {output}")
 
 
 @main.command()

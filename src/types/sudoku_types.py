@@ -19,4 +19,5 @@ class Difficulty(Enum):
 
 class GenerationOutput(StrEnum):
     FILE = "file"
+    IMAGE = "image"
     STDOUT = "stdout"
