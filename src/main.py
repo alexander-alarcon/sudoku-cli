@@ -1,5 +1,6 @@
 import click
 
+from .puzzle.reader import SudokuReader
 from .puzzle.saver import SudokuSaver
 from .puzzle.sudoku import Difficulty, Sudoku
 from .types.sudoku_types import GenerationOutput
@@ -55,23 +56,17 @@ def generate(difficulty: Difficulty, output: str) -> None:
 
 
 @main.command()
-def solve() -> None:
-    sudoku = Sudoku()
-    sudoku.set_puzzle(
-        grid=[
-            [5, 3, 0, 0, 7, 0, 0, 0, 0],
-            [6, 0, 0, 1, 9, 5, 0, 0, 0],
-            [0, 9, 8, 0, 0, 0, 0, 6, 0],
-            [8, 0, 0, 0, 6, 0, 0, 0, 3],
-            [4, 0, 0, 8, 0, 3, 0, 0, 1],
-            [7, 0, 0, 0, 2, 0, 0, 0, 6],
-            [0, 6, 0, 0, 0, 0, 2, 8, 0],
-            [0, 0, 0, 4, 1, 9, 0, 0, 5],
-            [0, 0, 0, 0, 8, 0, 0, 7, 9],
-        ]
-    )
+@click.option(
+    "-f",
+    "--file",
+    type=click.Path(exists=True),
+    help="The path to the Sudoku puzzle file.",
+    required=True,
+)
+def solve(file: str) -> None:
+    sudoku: Sudoku = SudokuReader.read_puzzle(file)
     sudoku.solve()
-    sudoku.print_puzzle(title="Solved")
+    sudoku.print_puzzle(title="Solved Sudoku")
 
 
 if __name__ == "__main__":
