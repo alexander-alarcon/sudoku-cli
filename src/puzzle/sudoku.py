@@ -1,4 +1,5 @@
 import random
+from pathlib import Path
 from typing import Optional
 
 from prettytable import PrettyTable
@@ -108,7 +109,35 @@ class Sudoku:
 
         print(table)
 
+    def save_puzzle(self, filename: str = "sudoku.txt") -> None:
+        """
+        Save the current puzzle grid to a file.
+
+        Args:
+            filename (str): The name of the file to save the puzzle to. Defaults to "sudoku.txt".
+
+        Returns:
+            None: This function does not return anything.
+        """
+        file_path = Path(filename)
+        print(file_path)
+        with open(file_path, "w") as f:
+            for row in range(9):
+                for col in range(9):
+                    f.write(f"{self.grid[row][col]} ")
+                f.write("\n")
+        print(f"Saved puzzle to {file_path}")
+
     def _remove_numbers(self, difficulty: Difficulty) -> Grid:
+        """
+        Removes a specified number of cells from the grid based on the given difficulty.
+
+        Parameters:
+            difficulty (Difficulty): The difficulty level of the Sudoku puzzle.
+
+        Returns:
+            Grid: The modified grid with cells removed.
+        """
         # Get all cell positions in the grid
         cell_positions: list[tuple[int, int]] = [
             (row, col) for row in range(9) for col in range(9)

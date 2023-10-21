@@ -26,3 +26,5 @@ poetry.toml
 *.log
 .DS_Store
 dist/
+
+sudoku.txt

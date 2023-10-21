@@ -45,8 +45,7 @@ def generate(difficulty: Difficulty, output: str) -> None:
     if output == GenerationOutput.STDOUT:
         sudoku.print_puzzle(title=f"{difficulty.name.capitalize()} difficulty")
     else:
-        # TODO: sudoku.save_puzzle()
-        pass
+        sudoku.save_puzzle()
 
 
 @main.command()
