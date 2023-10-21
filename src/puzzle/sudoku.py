@@ -109,7 +109,7 @@ class Sudoku:
 
         print(table)
 
-    def save_puzzle(self, filename: str = "sudoku.txt") -> None:
+    def save_puzzle_as_txt(self, filename: str = "sudoku.txt") -> None:
         """
         Save the current puzzle grid to a file.
 
@@ -120,12 +120,13 @@ class Sudoku:
             None: This function does not return anything.
         """
         file_path = Path(filename)
-        print(file_path)
         with open(file_path, "w") as f:
             for row in range(9):
-                for col in range(9):
-                    f.write(f"{self.grid[row][col]} ")
-                f.write("\n")
+                for col in range(8):
+                    value: int = self.grid[row][col]
+                    f.write(f"{value if value != 0 else '_'} ")
+                last_value: int = self.grid[row][8]
+                f.write(f"{last_value if last_value != 0 else '_'}\n")
         print(f"Saved puzzle to {file_path}")
 
     def _remove_numbers(self, difficulty: Difficulty) -> Grid:
