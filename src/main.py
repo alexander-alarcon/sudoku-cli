@@ -1,36 +1,13 @@
-from typing import Optional
-
 import click
 
 from .puzzle.sudoku import Difficulty, Sudoku
-
-difficulty_choices: list[str] = [difficulty.name for difficulty in Difficulty]
-
-
-def validate_sudoku_difficulty(
-    _ctx: click.Context, _param: click.Parameter, value: Optional[str]
-) -> Difficulty:
-    """
-    Validate the difficulty level of a Sudoku game.
-
-    Args:
-        _ctx (click.Context): The click context object.
-        _param (click.Parameter): The click parameter object.
-        value (Optional[str]): The value of the difficulty parameter.
-
-    Returns:
-        Difficulty: The validated difficulty level.
-
-    Raises:
-        click.BadParameter: If the difficulty level is invalid.
-    """
-    if value is None:
-        return Difficulty.EASY
-
-    try:
-        return Difficulty[value]
-    except ValueError:
-        raise click.BadParameter(f"Invalid difficulty: {value}")
+from .types.sudoku_types import GenerationOutput
+from .types.validation import (
+    difficulty_choices,
+    generation_output_choices,
+    validate_generation_output,
+    validate_sudoku_difficulty,
+)
 
 
 @click.group(help="Sudoku Puzzle Generator and Solver")
@@ -47,15 +24,29 @@ def main() -> None:
     "--difficulty",
     type=click.Choice(difficulty_choices, case_sensitive=False),
     callback=validate_sudoku_difficulty,
-    default=Difficulty.EASY.name,
+    default=Difficulty.EASY.name.lower(),
     show_default=True,
     show_choices=True,
-    help=f"Generate a Sudoku puzzle with the specified difficulty level. Choose from: EXTREME_EASY, EASY, MEDIUM, DIFFICULT, HELLISH.",
+    help=f"Generate a Sudoku puzzle with the specified difficulty level. Choose from: extreme_easy, easy, medium, difficult, hellish.",
 )
-def generate(difficulty: Difficulty) -> None:
+@click.option(
+    "-o",
+    "--output",
+    type=click.Choice(generation_output_choices, case_sensitive=False),
+    callback=validate_generation_output,
+    default=GenerationOutput.STDOUT.lower(),
+    show_default=True,
+    show_choices=True,
+    help=f"Specify the output destination for the generated Sudoku puzzle. Choose from: {', '.join(generation_output_choices)}.",
+)
+def generate(difficulty: Difficulty, output: str) -> None:
     sudoku = Sudoku()
     sudoku.generate_puzzle(difficulty=difficulty)
-    sudoku.print_puzzle(title=f"{difficulty.name.capitalize()} difficulty")
+    if output == GenerationOutput.STDOUT:
+        sudoku.print_puzzle(title=f"{difficulty.name.capitalize()} difficulty")
+    else:
+        # TODO: sudoku.save_puzzle()
+        pass
 
 
 @main.command()
