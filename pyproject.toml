@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "sudoku"
+version = "0.1.0"
+description = ""
+authors = ["Alexander Alarcon <walarcon14@gmail.com>"]
+readme = "README.md"
+packages = [{ include = "src" }]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+click = "^8.1.7"
+prettytable = "^3.9.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.10.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+sudoku = "src.main:main"
