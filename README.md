@@ -18,7 +18,7 @@ Available options for generating puzzles:
 
 -d, --difficulty: Set the difficulty of the puzzle. You can choose from [extreme_easy, easy, medium, hard, hellish]. The default difficulty is 'easy'.
 
--o, --output: Specify the output format of the puzzle. You can choose from 'stdout' or 'file'. The default output is 'stdout'. When using 'file' as the output format, a text file will be created in the current directory with the generated puzzle in space-separated values. Blank cells are represented with underscores ('_').
+-o, --output: Specify the output format of the puzzle. You can choose from 'stdout', 'file' or 'image'. The default output is 'stdout'. When using 'file' as the output format, a text file will be created in the current directory with the generated puzzle in space-separated values. Blank cells are represented with underscores ('_'). When using 'image' as the output format, a Sudoku puzzle image will be created in the current directory.
 
 ### Solving Sudoku Puzzles
 
